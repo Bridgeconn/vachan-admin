@@ -83,4 +83,4 @@ In case of any errors the logs can be found in the vachan-admin.log file in the 
 - To view the vachan-engine config run `vachan-config login`
 - To add/overwrite the vachan-engine config run `vachan-config login <vachan-engin-url> <admin-email> <admin-pass>`
 - To remove the vachan-engine config run `vachan-config logout`
-- To uninstall the tool scripts run `npm uninstall -g vachan-admin` and `npm uninstall -g vachan-config`
+- To uninstall the tool scripts run `npm uninstall -g vachan-admin`
