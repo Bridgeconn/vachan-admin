@@ -1,0 +1,37 @@
+{
+  "name": "vachan-admin",
+  "version": "1.0.0",
+  "description": "Admin CLI to add data to vachan engine",
+  "main": "bin/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Bridgeconn/vachan-admin.git"
+  },
+  "keywords": [
+    "vachan",
+    "admin",
+    "cli"
+  ],
+  "author": "Bridge Connectivity Solutions <revant.cherian@bridgeconn.com> (https://github.com/Bridgeconn)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Bridgeconn/vachan-admin/issues"
+  },
+  "homepage": "https://github.com/Bridgeconn/vachan-admin#readme",
+  "bin": {
+    "vachan-admin": "./bin/app.js",
+    "vachan-config": "./bin/config.js"
+  },
+  "dependencies": {
+    "axios": "^0.20.0",
+    "csv-parser": "^2.3.3",
+    "dotenv": "^8.2.0",
+    "esm": "^3.2.25",
+    "simple-node-logger": "^18.12.24",
+    "usfm-grammar": "^1.1.0-beta.2",
+    "yargs": "^16.0.3"
+  }
+}
