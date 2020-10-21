@@ -11,28 +11,28 @@ export function add(token, argv) {
       require("./bible").addBible(argv.f);
       break;
     case "commentary":
-      console.log("Feature yet to be Added");
+      require("./commentary").addCommentary(token, argv.f, argv.m);
       break;
     case "dictionary":
-      console.log("Feature yet to be Added");
+      require("./dictionary").addDictionary(token, argv.f, argv.m);
       break;
     case "infographic":
-      console.log("Feature yet to be Added");
+      require("./infographic").addInfographic(token, argv.f, argv.m);
       break;
     case "audiobible":
-      console.log("Feature yet to be Added");
+      require("./audiobible").addAudioBible(token, argv.f);
       break;
     case "video":
-      console.log("Feature yet to be Added");
+      require("./video").addVideo(token, argv.f);
       break;
     case "bookname":
       require("./bookname").addBookName(token, argv.f);
       break;
     case "metadata":
-      console.log("Feature yet to be Added");
+      require("./metadata").addMetadata(token, argv.f);
       break;
     default:
-      console.error(`"${argv.t}" is not a valid command!`);
+      console.error(`"${argv.t}" is not a valid type!`);
       break;
   }
 }
