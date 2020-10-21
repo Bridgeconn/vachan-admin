@@ -132,7 +132,9 @@ Examples:
 
 ### View Logs
 
-In case of any errors the logs can be found in the vachan-admin.log file in the main project folder. If this file is auto generated and shows the final output and the errors encountered. For Bible uploads it shows a summary report of the final list of usfm files parserd and uploaded.
+In case of any errors the logs can be found in the vachan-admin.log file in the main project folder.
+This file shows the final output and the errors encountered.
+For Bible uploads it shows a summary report of the final list of usfm files parserd and uploaded.
 
 ### Configuration
 
