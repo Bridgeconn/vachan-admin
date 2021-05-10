@@ -31,7 +31,7 @@
     "dotenv": "^8.2.0",
     "esm": "^3.2.25",
     "simple-node-logger": "^18.12.24",
-    "usfm-grammar": "^1.1.0-beta.2",
+    "usfm-grammar": "^2.0.0",
     "yargs": "^16.0.3"
   }
 }
