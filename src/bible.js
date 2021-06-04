@@ -86,7 +86,8 @@ function uploadBible(folder, sourceId) {
           }
           fCount++;
           //use usfm-grammar to parse each file
-          let json = grammar.parseUSFM(usfm);
+          const myUsfmParser = new grammar.USFMParser(usfm);
+          let json = myUsfmParser.toJSON();
           if (json.ERROR) {
             peCount++;
             log.error("Parsing Error for: ", file, "\n", json.ERROR);
@@ -108,7 +109,7 @@ function uploadBible(folder, sourceId) {
                   sCount++;
                   return log.info(`Success: ${message}`);
                 }
-                log.info(`Book: ${json.metadata.id.book}, File :`, file);
+                log.info(`Book: ${json.book.bookCode}, File :`, file);
                 log.info(`Success: ${success}, Message: ${message}`);
               })
               .catch((error) => {
