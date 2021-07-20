@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import CommentIcon from "@material-ui/icons/Comment";
 import LocalLibraryIcon from "@material-ui/icons/LocalLibrary";
@@ -12,6 +11,8 @@ import ImageIcon from "@material-ui/icons/Image";
 import VideocamIcon from "@material-ui/icons/Videocam";
 import ImportContactsIcon from "@material-ui/icons/ImportContacts";
 import FormatShapesIcon from "@material-ui/icons/FormatShapes";
+import CommentaryProvider from "../contexts/commentary";
+import Data from "./Commentary/data";
 
 function TabPanel(props) {
 	/* eslint-disable react/jsx-props-no-spreading */
@@ -27,7 +28,7 @@ function TabPanel(props) {
 		>
 			{value === index && (
 				<Box p={3}>
-					<Typography>{children}</Typography>
+				  {children}
 				</Box>
 			)}
 		</div>
@@ -110,7 +111,9 @@ export default function VerticalTabs() {
 				Bibles
 			</TabPanel>
 			<TabPanel value={value} index={1}>
-				Commentaries
+				<CommentaryProvider>
+					<Data />
+				</CommentaryProvider>
 			</TabPanel>
 			<TabPanel value={value} index={2}>
 				Dictionaries
