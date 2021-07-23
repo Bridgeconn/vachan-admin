@@ -9,7 +9,6 @@ function DictonaryContextProvider({ children }) {
       res.json()
     )
   );
-  console.log(data);
   return (
     <DictonaryContext.Provider value={{ isLoading, error, data }}>
       {children}

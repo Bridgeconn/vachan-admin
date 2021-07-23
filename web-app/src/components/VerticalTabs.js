@@ -14,6 +14,7 @@ import FormatShapesIcon from "@material-ui/icons/FormatShapes";
 import CommentaryProvider from "../contexts/commentary";
 import Data from "./Commentary/data";
 import DictonaryData from "./Dictonary/data";
+import ReadingPlan from "./ReadingPlan/data";
 
 function TabPanel(props) {
   /* eslint-disable react/jsx-props-no-spreading */
@@ -109,7 +110,7 @@ export default function VerticalTabs() {
         Bible Stories
       </TabPanel>
       <TabPanel value={value} index={6}>
-        Reading Plans
+        <ReadingPlan />
       </TabPanel>
     </div>
   );
