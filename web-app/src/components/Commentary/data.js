@@ -12,11 +12,11 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
+import InfoIcon from '@material-ui/icons/Info';
 import IconButton from '@material-ui/core/IconButton';
 import { Commentary } from "../../contexts/commentary"
-import CustomizedDialogs from "./Dialog";
 import { CommonContext } from "../../contexts/Common";
+import SimplePopover from "./Popover";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -49,19 +49,19 @@ function Data() {
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
-   const {handleClickOpen} = useContext(CommonContext);
+   const {id,handleClick} = useContext(CommonContext);
    return (
         <div>   
            {
-               commentaries.map((commentary)=>(
-                   <div className={classes.root} key={commentary.commentaries[0].sourceId}>
-                   <Accordion expanded={expanded === commentary.commentaries[0].sourceId} onChange={handleChange(commentary.commentaries[0].sourceId)}>
+               commentaries.map((language)=>(
+                   <div className={classes.root} key={language.languageCode}>
+                   <Accordion expanded={expanded === language.languageCode} onChange={handleChange(language.languageCode)}>
                      <AccordionSummary
                        expandIcon={<ExpandMoreIcon />}
                        aria-controls="panel1bh-content"
                        id="panel1bh-header"
                      >
-                       <Typography className={classes.heading} variant="h1" gutterBottom>{commentary.language}</Typography>
+                       <Typography className={classes.heading} variant="h1" gutterBottom>{language.language}</Typography>
                      </AccordionSummary>
                      <AccordionDetails>
                      <TableContainer component={Paper}>
@@ -74,16 +74,16 @@ function Data() {
                             </TableRow>
                             </TableHead>
                             <TableBody>
-                            {commentary.commentaries.map((element)=>(
+                            {language.commentaries.map((element)=>(
                                 <TableRow key={element.sourceId}>
                                     <TableCell >{element.code}</TableCell>
                                     <TableCell >{element.name}</TableCell>
-                                    <TableCell><IconButton onClick={()=>handleClickOpen({name:element.name})}><MoreVertIcon /></IconButton></TableCell>
-                                </TableRow>
+                                    <TableCell><IconButton aria-describedby={id} onClick={(e)=>handleClick(e,element.metadata,element.name,element.code)}><InfoIcon /></IconButton></TableCell>
+                              </TableRow>                                  
                             ))}    
                             </TableBody>
                         </Table>
-                        <CustomizedDialogs/>
+                        <SimplePopover />
                         </TableContainer>
                      </AccordionDetails>
                    </Accordion>
