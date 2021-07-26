@@ -11,14 +11,3 @@ code {
 	font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
 		monospace;
 }
-.metaData:nth-child(odd) {
-	background: rgb(234 234 234);
-	padding: 5px;
-}
-.metaData:nth-child(even) {
-	padding: 5px;
-}
-.meta-width {
-	width: 200px;
-	display: inline-block;
-}

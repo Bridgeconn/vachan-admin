@@ -17,10 +17,6 @@ const useStyles = makeStyles((theme) => ({
 		flexBasis: "33.33%",
 		flexShrink: 0,
 	},
-	secondaryHeading: {
-		fontSize: theme.typography.pxToRem(15),
-		color: theme.palette.text.secondary,
-	},
 }));
 
 export default function Bibles() {

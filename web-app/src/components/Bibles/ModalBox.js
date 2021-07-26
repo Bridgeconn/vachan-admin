@@ -22,6 +22,19 @@ const useStyles = makeStyles((theme) => ({
 		overflowY: "auto",
 		overflowX: "hidden",
 	},
+	metaWidth: {
+		width: "200px",
+		display: "inline-block",
+	},
+	metaData: {
+		"&:nth-child(even)": {
+			background: "rgb(234 234 234)",
+			padding: "2px",
+		},
+		"&:nth-child(odd)": {
+			padding: "2px",
+		},
+	},
 }));
 
 const ModalBox = ({ versionName, code, metaData }) => {
@@ -51,8 +64,8 @@ const ModalBox = ({ versionName, code, metaData }) => {
 					<hr />
 					<div className={classes.metaTable}>
 						{Object.keys(metaData).map((key) => (
-							<div key={key} className="metaData">
-								<span className="meta-width">{key}</span>
+							<div key={key} className={classes.metaData}>
+								<span className="metaWidth">{key}</span>
 								{metaData[key]}
 							</div>
 						))}
