@@ -13,6 +13,8 @@ import ImportContactsIcon from "@material-ui/icons/ImportContacts";
 import FormatShapesIcon from "@material-ui/icons/FormatShapes";
 import CommentaryProvider from "../contexts/commentary";
 import Data from "./Commentary/data";
+import BibleContextProvider from "../contexts/BibleContext";
+import Bibles from "./Bibles/Bibles";
 
 function TabPanel(props) {
 	/* eslint-disable react/jsx-props-no-spreading */
@@ -26,11 +28,7 @@ function TabPanel(props) {
 			aria-labelledby={`vertical-tab-${index}`}
 			{...other}
 		>
-			{value === index && (
-				<Box p={3}>
-				  {children}
-				</Box>
-			)}
+			{value === index && <Box p={3}>{children}</Box>}
 		</div>
 	);
 }
@@ -108,7 +106,10 @@ export default function VerticalTabs() {
 				/>
 			</Tabs>
 			<TabPanel value={value} index={0}>
-				Bibles
+				<BibleContextProvider>
+					<h1>Bibles</h1>
+					<Bibles />
+				</BibleContextProvider>
 			</TabPanel>
 			<TabPanel value={value} index={1}>
 				<CommentaryProvider>
