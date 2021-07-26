@@ -14,9 +14,9 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import InfoIcon from "@material-ui/icons/Info";
 import IconButton from "@material-ui/core/IconButton";
-import { DictonaryContext } from "../../contexts/dictonary";
-import SimplePopover from "./Popover";
+import { Commentary } from "../../contexts/commentary";
 import { CommonContext } from "../../contexts/Common";
+import SimplePopover from "./Popover";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,9 +36,11 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.text.secondary,
   },
 }));
-function DictonaryData() {
-  const { isLoading, error, data: dictonary } = useContext(DictonaryContext);
+
+function Data() {
+  const { isLoading, error, data: commentaries } = useContext(Commentary);
   if (isLoading) return "Loading...";
+
   if (error) return error.message;
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
@@ -49,8 +51,8 @@ function DictonaryData() {
   const { id, handleClick } = useContext(CommonContext);
   return (
     <div>
-      {dictonary.map((language) => (
-        <div key={language.languageCode}>
+      {commentaries.map((language) => (
+        <div className={classes.root} key={language.languageCode}>
           <Accordion
             expanded={expanded === language.languageCode}
             onChange={handleChange(language.languageCode)}
@@ -75,7 +77,7 @@ function DictonaryData() {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {language.dictionaries.map((element) => (
+                    {language.commentaries.map((element) => (
                       <TableRow key={element.sourceId}>
                         <TableCell>{element.code}</TableCell>
                         <TableCell>{element.name}</TableCell>
@@ -108,4 +110,4 @@ function DictonaryData() {
   );
 }
 
-export default DictonaryData;
+export default Data;

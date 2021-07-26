@@ -12,8 +12,11 @@ import VideocamIcon from "@material-ui/icons/Videocam";
 import ImportContactsIcon from "@material-ui/icons/ImportContacts";
 import FormatShapesIcon from "@material-ui/icons/FormatShapes";
 import CommentaryProvider from "../contexts/commentary";
-import Data from "./Commentary/data";
-import DictonaryData from "./Dictonary/data";
+import Data from "./Commentary/commentary";
+import DictonaryData from "./Dictonary/dictonary";
+import BibleContextProvider from "../contexts/BibleContext";
+import Bibles from "./Bibles/Bibles";
+import DictonaryContextProvider from "../contexts/dictonary";
 
 function TabPanel(props) {
   /* eslint-disable react/jsx-props-no-spreading */
@@ -89,7 +92,10 @@ export default function VerticalTabs() {
         <Tab icon={<EventIcon />} label="Reading Plans " {...a11yProps(6)} />
       </Tabs>
       <TabPanel value={value} index={0}>
-        Bibles
+        <BibleContextProvider>
+          <h1>Bibles</h1>
+          <Bibles />
+        </BibleContextProvider>
       </TabPanel>
       <TabPanel value={value} index={1}>
         <CommentaryProvider>
@@ -97,7 +103,9 @@ export default function VerticalTabs() {
         </CommentaryProvider>
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <DictonaryData />
+        <DictonaryContextProvider>
+          <DictonaryData />
+        </DictonaryContextProvider>
       </TabPanel>
       <TabPanel value={value} index={3}>
         Infographics
