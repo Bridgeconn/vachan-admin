@@ -63,12 +63,13 @@ const ModalBox = ({ versionName, code, metaData }) => {
 					</h2>
 					<hr />
 					<div className={classes.metaTable}>
-						{Object.keys(metaData).map((key) => (
-							<div key={key} className={classes.metaData}>
-								<span className="metaWidth">{key}</span>
-								{metaData[key]}
-							</div>
-						))}
+						{metaData &&
+							Object.keys(metaData).map((key) => (
+								<div key={key} className={classes.metaData}>
+									<span className="metaWidth">{key}</span>
+									{metaData[key]}
+								</div>
+							))}
 					</div>
 				</div>
 			</Modal>
@@ -78,7 +79,10 @@ const ModalBox = ({ versionName, code, metaData }) => {
 ModalBox.propTypes = {
 	versionName: PropTypes.string.isRequired,
 	code: PropTypes.string.isRequired,
-	metaData: PropTypes.instanceOf(Object).isRequired,
+	metaData: PropTypes.instanceOf(Object),
+};
+ModalBox.defaultProps = {
+	metaData: null,
 };
 
 export default ModalBox;
