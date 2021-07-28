@@ -33,26 +33,27 @@ export default function Bibles() {
 
 	return (
 		<div className={classes.root}>
-			{bibles.map((bible) => (
-				<Accordion
-					expanded={expanded === bible.language}
-					onChange={handleChange(bible.language)}
-					key={bible.languageVersions[0].sourceId}
-				>
-					<AccordionSummary
-						expandIcon={<ExpandMoreIcon />}
-						aria-controls="panel1bh-content"
-						id="panel1bh-header"
+			{bibles &&
+				bibles.map((bible) => (
+					<Accordion
+						expanded={expanded === bible.language}
+						onChange={handleChange(bible.language)}
+						key={bible.languageVersions[0].sourceId}
 					>
-						<Typography className={classes.heading}>
-							{bible.language}
-						</Typography>
-					</AccordionSummary>
-					<AccordionDetails>
-						<BibleTable bibles={bible.languageVersions} />
-					</AccordionDetails>
-				</Accordion>
-			))}
+						<AccordionSummary
+							expandIcon={<ExpandMoreIcon />}
+							aria-controls="panel1bh-content"
+							id="panel1bh-header"
+						>
+							<Typography className={classes.heading}>
+								{bible.language}
+							</Typography>
+						</AccordionSummary>
+						<AccordionDetails>
+							<BibleTable bibles={bible.languageVersions} />
+						</AccordionDetails>
+					</Accordion>
+				))}
 		</div>
 	);
 }

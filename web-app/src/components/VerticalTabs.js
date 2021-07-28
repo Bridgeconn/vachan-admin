@@ -15,6 +15,8 @@ import CommentaryProvider from "../contexts/commentary";
 import Data from "./Commentary/data";
 import BibleContextProvider from "../contexts/BibleContext";
 import Bibles from "./Bibles/Bibles";
+import VideoContextProvider from "../contexts/VideoContext";
+import VideoTable from "./Videos/VideoTable";
 
 function TabPanel(props) {
 	/* eslint-disable react/jsx-props-no-spreading */
@@ -123,7 +125,10 @@ export default function VerticalTabs() {
 				Infographics
 			</TabPanel>
 			<TabPanel value={value} index={4}>
-				Videos
+				<VideoContextProvider>
+					<h1>Videos</h1>
+					<VideoTable />
+				</VideoContextProvider>
 			</TabPanel>
 			<TabPanel value={value} index={5}>
 				Bible Stories
