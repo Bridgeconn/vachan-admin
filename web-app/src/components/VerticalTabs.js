@@ -12,60 +12,61 @@ import VideocamIcon from "@material-ui/icons/Videocam";
 import ImportContactsIcon from "@material-ui/icons/ImportContacts";
 import FormatShapesIcon from "@material-ui/icons/FormatShapes";
 import CommentaryProvider from "../contexts/commentary";
-import Data from "./Commentary/data";
+import Data from "./Commentary/commentary";
+import DictonaryData from "./Dictonary/dictonary";
 import BibleContextProvider from "../contexts/BibleContext";
 import Bibles from "./Bibles/Bibles";
 import VideoContextProvider from "../contexts/VideoContext";
 import VideoTable from "./Videos/VideoTable";
 
 function TabPanel(props) {
-	/* eslint-disable react/jsx-props-no-spreading */
-	const { children, value, index, ...other } = props;
+  /* eslint-disable react/jsx-props-no-spreading */
+  const { children, value, index, ...other } = props;
 
-	return (
-		<div
-			role="tabpanel"
-			hidden={value !== index}
-			id={`vertical-tabpanel-${index}`}
-			aria-labelledby={`vertical-tab-${index}`}
-			{...other}
-		>
-			{value === index && <Box p={3}>{children}</Box>}
-		</div>
-	);
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`vertical-tabpanel-${index}`}
+      aria-labelledby={`vertical-tab-${index}`}
+      {...other}
+    >
+      {value === index && <Box p={3}>{children}</Box>}
+    </div>
+  );
 }
 
 TabPanel.propTypes = {
-	children: PropTypes.node.isRequired,
-	index: PropTypes.node.isRequired,
-	value: PropTypes.node.isRequired,
+  children: PropTypes.node.isRequired,
+  index: PropTypes.node.isRequired,
+  value: PropTypes.node.isRequired,
 };
 
 function a11yProps(index) {
-	return {
-		id: `vertical-tab-${index}`,
-		"aria-controls": `vertical-tabpanel-${index}`,
-	};
+  return {
+    id: `vertical-tab-${index}`,
+    "aria-controls": `vertical-tabpanel-${index}`,
+  };
 }
 
 const useStyles = makeStyles((theme) => ({
-	root: {
-		flexGrow: 1,
-		backgroundColor: theme.palette.background.paper,
-		display: "flex",
-	},
-	tabs: {
-		borderRight: `2px solid ${theme.palette.divider}`,
-	},
+  root: {
+    flexGrow: 1,
+    backgroundColor: theme.palette.background.paper,
+    display: "flex",
+  },
+  tabs: {
+    borderRight: `2px solid ${theme.palette.divider}`,
+  },
 }));
 
 export default function VerticalTabs() {
-	const classes = useStyles();
-	const [value, setValue] = React.useState(0);
+  const classes = useStyles();
+  const [value, setValue] = React.useState(0);
 
-	const handleChange = (event, newValue) => {
-		setValue(newValue);
-	};
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
 
 	return (
 		<div className={classes.root}>
@@ -137,5 +138,5 @@ export default function VerticalTabs() {
 				Reading Plans
 			</TabPanel>
 		</div>
-	);
+	);  
 }
