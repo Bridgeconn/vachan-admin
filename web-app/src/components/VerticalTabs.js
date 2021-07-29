@@ -12,9 +12,15 @@ import VideocamIcon from "@material-ui/icons/Videocam";
 import ImportContactsIcon from "@material-ui/icons/ImportContacts";
 import FormatShapesIcon from "@material-ui/icons/FormatShapes";
 import CommentaryProvider from "../contexts/commentary";
-import Data from "./Commentary/data";
-import DictonaryData from "./Dictonary/data";
 import ReadingPlan from "./ReadingPlan/data";
+import Commentary from "./Commentary/commentary";
+import DictonaryData from "./Dictonary/dictonary";
+import BibleContextProvider from "../contexts/BibleContext";
+import Bibles from "./Bibles/Bibles";
+import VideoContextProvider from "../contexts/VideoContext";
+import VideoTable from "./Videos/VideoTable";
+import DictonaryContextProvider from "../contexts/dictonary";
+import ReadingPlanContextProvider from "../contexts/readingplan";
 
 function TabPanel(props) {
   /* eslint-disable react/jsx-props-no-spreading */
@@ -90,27 +96,37 @@ export default function VerticalTabs() {
         <Tab icon={<EventIcon />} label="Reading Plans " {...a11yProps(6)} />
       </Tabs>
       <TabPanel value={value} index={0}>
-        Bibles
+        <BibleContextProvider>
+          <h1>Bibles</h1>
+          <Bibles />
+        </BibleContextProvider>
       </TabPanel>
       <TabPanel value={value} index={1}>
         <CommentaryProvider>
-          <Data />
+          <Commentary />
         </CommentaryProvider>
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <DictonaryData />
+        <DictonaryContextProvider>
+          <DictonaryData />
+        </DictonaryContextProvider>
       </TabPanel>
       <TabPanel value={value} index={3}>
         Infographics
       </TabPanel>
       <TabPanel value={value} index={4}>
-        Videos
+        <VideoContextProvider>
+          <h1>Videos</h1>
+          <VideoTable />
+        </VideoContextProvider>
       </TabPanel>
       <TabPanel value={value} index={5}>
         Bible Stories
       </TabPanel>
       <TabPanel value={value} index={6}>
-        <ReadingPlan />
+        <ReadingPlanContextProvider>
+          <ReadingPlan />
+        </ReadingPlanContextProvider>
       </TabPanel>
     </div>
   );

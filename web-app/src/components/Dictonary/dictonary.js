@@ -19,9 +19,6 @@ import SimplePopover from "./Popover";
 import { CommonContext } from "../../contexts/Common";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    width: "100%",
-  },
   table: {
     minWidth: 650,
   },
@@ -30,10 +27,6 @@ const useStyles = makeStyles((theme) => ({
     flexBasis: "33.33%",
     flexShrink: 0,
     textTransform: "capitalize",
-  },
-  secondaryHeading: {
-    fontSize: theme.typography.pxToRem(15),
-    color: theme.palette.text.secondary,
   },
 }));
 function DictonaryData() {

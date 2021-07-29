@@ -1,4 +1,5 @@
 import { useContext, useState } from "react";
+import { makeStyles } from "@material-ui/core/styles";
 import Accordion from "@material-ui/core/Accordion";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
@@ -17,17 +18,37 @@ import { Commentary } from "../../contexts/commentary";
 import { CommonContext } from "../../contexts/Common";
 import SimplePopover from "./Popover";
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: "100%",
+  },
+  table: {
+    minWidth: 650,
+  },
+  heading: {
+    fontSize: theme.typography.pxToRem(15),
+    flexBasis: "33.33%",
+    flexShrink: 0,
+    textTransform: "capitalize",
+  },
+  secondaryHeading: {
+    fontSize: theme.typography.pxToRem(15),
+    color: theme.palette.text.secondary,
+  },
+}));
+
 function Data() {
   const { isLoading, error, data: commentaries } = useContext(Commentary);
   if (isLoading) return "Loading...";
 
   if (error) return error.message;
+  const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
-  const { id, handleClick, classes } = useContext(CommonContext);
+  const { id, handleClick } = useContext(CommonContext);
   return (
     <div>
       {commentaries.map((language) => (
@@ -41,7 +62,7 @@ function Data() {
               aria-controls="panel1bh-content"
               id="panel1bh-header"
             >
-              <Typography className={classes.heading}>
+              <Typography className={classes.heading} variant="h1" gutterBottom>
                 {language.language}
               </Typography>
             </AccordionSummary>
