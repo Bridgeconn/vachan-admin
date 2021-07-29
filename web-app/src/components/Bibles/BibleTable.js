@@ -32,7 +32,9 @@ const BibleTable = ({ bibles }) => {
 				const obc = data.find(
 					(item) => item.language.code === language
 				);
-				setBook(obc.bookNames.length);
+				if (obc) {
+					setBook(obc.bookNames.length);
+				}
 			});
 
 		const audioBible = bibles[0].audioBible.name;
@@ -57,22 +59,25 @@ const BibleTable = ({ bibles }) => {
 					</TableRow>
 				</TableHead>
 				<TableBody>
-					{bibles.map((language) => (
-						<TableRow key={language.version.code}>
-							<TableCell>{language.version.code}</TableCell>
-							<TableCell>{language.version.name}</TableCell>
-							<TableCell>{language.version.longName}</TableCell>
-							<TableCell>{book}</TableCell>
-							<TableCell>{audioInfo}</TableCell>
-							<TableCell>
-								<ModalBox
-									versionName={language.version.name}
-									code={language.version.code}
-									metaData={language.metadata}
-								/>
-							</TableCell>
-						</TableRow>
-					))}
+					{bibles &&
+						bibles.map((language) => (
+							<TableRow key={language.version.code}>
+								<TableCell>{language.version.code}</TableCell>
+								<TableCell>{language.version.name}</TableCell>
+								<TableCell>
+									{language.version.longName}
+								</TableCell>
+								<TableCell>{book}</TableCell>
+								<TableCell>{audioInfo}</TableCell>
+								<TableCell>
+									<ModalBox
+										versionName={language.version.name}
+										code={language.version.code}
+										metaData={language.metadata}
+									/>
+								</TableCell>
+							</TableRow>
+						))}
 				</TableBody>
 			</Table>
 		</TableContainer>

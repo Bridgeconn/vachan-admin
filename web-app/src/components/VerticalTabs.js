@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import Tabs from "@material-ui/core/Tabs";
@@ -19,6 +19,8 @@ import Bibles from "./Bibles/Bibles";
 import DictonaryContextProvider from "../contexts/dictonary";
 import BibleStories from "./BibleStories/BibleStory";
 import BiBleStoryContextProvider from "../contexts/BibleStory";
+import VideoContextProvider from "../contexts/VideoContext";
+import VideoTable from "./Videos/VideoTable";
 
 function TabPanel(props) {
   /* eslint-disable react/jsx-props-no-spreading */
@@ -63,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function VerticalTabs() {
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -113,7 +115,10 @@ export default function VerticalTabs() {
         Infographics
       </TabPanel>
       <TabPanel value={value} index={4}>
-        Videos
+      <VideoContextProvider>
+					<h1>Videos</h1>
+					<VideoTable />
+				</VideoContextProvider>
       </TabPanel>
       <TabPanel value={value} index={5}>
         <BiBleStoryContextProvider>
@@ -125,4 +130,4 @@ export default function VerticalTabs() {
       </TabPanel>
     </div>
   );
-}
+	}
