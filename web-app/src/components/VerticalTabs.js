@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import Tabs from "@material-ui/core/Tabs";
@@ -17,6 +17,8 @@ import Commentary from "./Commentary/commentary";
 import DictonaryData from "./Dictonary/dictonary";
 import BibleContextProvider from "../contexts/BibleContext";
 import Bibles from "./Bibles/Bibles";
+import BibleStories from "./BibleStories/BibleStory";
+import BiBleStoryContextProvider from "../contexts/BibleStory";
 import VideoContextProvider from "../contexts/VideoContext";
 import VideoTable from "./Videos/VideoTable";
 import DictonaryContextProvider from "../contexts/dictonary";
@@ -65,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function VerticalTabs() {
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -121,7 +123,9 @@ export default function VerticalTabs() {
         </VideoContextProvider>
       </TabPanel>
       <TabPanel value={value} index={5}>
-        Bible Stories
+        <BiBleStoryContextProvider>
+          <BibleStories />
+        </BiBleStoryContextProvider>
       </TabPanel>
       <TabPanel value={value} index={6}>
         <ReadingPlanContextProvider>
