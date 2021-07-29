@@ -17,6 +17,8 @@ import DictonaryData from "./Dictonary/dictonary";
 import BibleContextProvider from "../contexts/BibleContext";
 import Bibles from "./Bibles/Bibles";
 import DictonaryContextProvider from "../contexts/dictonary";
+import BibleStories from "./BibleStories/BibleStory";
+import BiBleStoryContextProvider from "../contexts/BibleStory";
 
 function TabPanel(props) {
   /* eslint-disable react/jsx-props-no-spreading */
@@ -114,7 +116,9 @@ export default function VerticalTabs() {
         Videos
       </TabPanel>
       <TabPanel value={value} index={5}>
-        Bible Stories
+        <BiBleStoryContextProvider>
+          <BibleStories />
+        </BiBleStoryContextProvider>
       </TabPanel>
       <TabPanel value={value} index={6}>
         Reading Plans
