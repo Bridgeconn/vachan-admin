@@ -11,7 +11,8 @@ import VolumeOffIcon from "@material-ui/icons/VolumeOff";
 import VolumeUpIcon from "@material-ui/icons/VolumeUp";
 
 import Paper from "@material-ui/core/Paper";
-import ModalBox from "./ModalBox";
+// import ModalBox from "./ModalBox";
+import BiblePopover from "./BiblePopover";
 
 const useStyles = makeStyles({
 	table: {
@@ -70,7 +71,7 @@ const BibleTable = ({ bibles }) => {
 								<TableCell>{book}</TableCell>
 								<TableCell>{audioInfo}</TableCell>
 								<TableCell>
-									<ModalBox
+									<BiblePopover
 										versionName={language.version.name}
 										code={language.version.code}
 										metaData={language.metadata}
