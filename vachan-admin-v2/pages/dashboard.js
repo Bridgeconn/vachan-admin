@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React, { Component, useState } from "react";
+import React from "react";
 import { BsBookHalf, BsCalendar2EventFill } from "react-icons/bs";
 import {
   MdOutlineComment,
@@ -7,23 +7,23 @@ import {
   MdImage,
   MdVideocam,
 } from "react-icons/md";
-import { FaBookReader, FaHome, FaRegUserCircle } from "react-icons/fa";
+import { FaBookReader } from "react-icons/fa";
 import { Tab } from "@headlessui/react";
 import Topbar from "../components/Topbar";
 
-function Language({ name }) {
-  return (
-    <Link className="flex items-center flex-shrink-0 h-10 px-2 text-sm font-medium rounded border-b-2 hover:bg-gray-300">
-      <span className="leading-none text-xl">{name}</span>
-    </Link>
-  );
-}
+// function Language({ name }) {
+//   return (
+//     <Link className="flex items-center flex-shrink-0 h-10 px-2 text-sm font-medium rounded border-b-2 hover:bg-gray-300">
+//       <span className="leading-none text-xl">{name}</span>
+//     </Link>
+//   );
+// }
 
 const Dashboard = () => {
   return (
-    <div className="w-screen h-screen text-gray-700 ">
+    <div>
       <Topbar />
-      <div className="relative h-screen overflow-auto">
+      <div className="mx-auto bg-white mt-24 md:mt-0 h-screen">
         <div className="flex text-gray-900 border-t-2 bg-gray-300 h-full w-full">
           <Tab.Group vertical>
             <Tab.List className="flex flex-col w-60 p-4 bg-gray-900 text-gray-100">

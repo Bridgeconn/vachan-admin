@@ -1,14 +1,18 @@
 import Link from "next/link";
 import React, { Fragment } from "react";
-
-import { FaHome } from "react-icons/fa";
+import { FaHome, FaRegUserCircle } from "react-icons/fa";
 import { Menu, Transition } from "@headlessui/react";
 import { HiChevronDown } from "react-icons/hi";
 
+const logOut = () => {
+  localStorage.removeItem("accessToken");
+  window.location = "/";
+};
+
 const Topbar = () => {
   return (
-    <div className="text-gray-100 bg-gray-900 p-4 sticky top-0 z-50">
-      <Link href="#">
+    <div className="text-gray-100 bg-gray-900 p-4 sticky w-full z-10 top-0">
+      <Link href="/dashboard">
         <a className="flex items-center w-full h-12 px-3 mt-2">
           <FaHome className="w-10 h-10" />
           <span className="ml-2 text-2xl font-bold">Vachan Admin</span>
@@ -34,12 +38,16 @@ const Topbar = () => {
             leaveFrom="transform opacity-100 scale-100"
             leaveTo="transform opacity-0 scale-95"
           >
-            <Menu.Items className="absolute right-0 w-56 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+            <Menu.Items className="absolute right-0 w-56 mt-2 origin-top-right p-2 hover:bg-gray-300 bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
               <div className="px-1 py-1 ">
                 <Menu.Item>
-                  <button className="flex rounded-md items-center w-full px-2 py-2 text-gray-900">
-                    Log out
-                  </button>
+                  <Link
+                    className="flex rounded-md items-center w-full px-2 py-2 text-gray-900"
+                    onClick={logOut}
+                    href="/"
+                  >
+                    <a className="text-gray-900">Log Out</a>
+                  </Link>
                 </Menu.Item>
               </div>
             </Menu.Items>
