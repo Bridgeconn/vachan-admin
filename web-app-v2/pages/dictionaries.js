@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  useTable,
-  useFilters,
-  useGlobalFilter,
-  useAsyncDebounce,
-} from "react-table";
+import { useTable, useFilters, useGlobalFilter } from "react-table";
 import { MdInfoOutline } from "react-icons/md";
 
 export const getStaticProps = async () => {
@@ -18,15 +13,11 @@ export const getStaticProps = async () => {
 };
 
 // Define a default UI for filtering
-function GlobalFilter({
-  preGlobalFilteredRows,
-  globalFilter,
-  setGlobalFilter,
-}) {
+function GlobalFilter({ globalFilter, setGlobalFilter }) {
   const [value, setValue] = React.useState(globalFilter);
-  const onChange = useAsyncDebounce((value) => {
+  const onChange = (value) => {
     setGlobalFilter(value || undefined);
-  }, 200);
+  };
 
   return (
     <span>
@@ -122,7 +113,6 @@ function Table({ columns, data }) {
     rows,
     prepareRow,
     state,
-    preGlobalFilteredRows,
     setGlobalFilter,
   } = useTable(
     {
@@ -137,11 +127,10 @@ function Table({ columns, data }) {
 
   return (
     <>
-      {/* <GlobalFilter
-        preGlobalFilteredRows={preGlobalFilteredRows}
+      <GlobalFilter
         globalFilter={state.globalFilter}
         setGlobalFilter={setGlobalFilter}
-      /> */}
+      />
       <table
         {...getTableProps()}
         className="min-w-full divide-y divide-gray-400 border-4"
@@ -196,7 +185,11 @@ const showDictionaryData = (dictionaries) => {
         language: item.language,
         name: val.name,
         code: val.code,
-        metadata: val.name ? <MdInfoOutline /> : "",
+        metadata: val.name ? (
+          <MdInfoOutline className="mx-2 text-2xl cursor-pointer" />
+        ) : (
+          ""
+        ),
       };
       result.push(dictionaries);
     });

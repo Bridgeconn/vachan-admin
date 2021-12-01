@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  useTable,
-  useFilters,
-  useGlobalFilter,
-  useAsyncDebounce,
-} from "react-table";
+import { useTable, useFilters, useGlobalFilter } from "react-table";
 import { MdVolumeUp, MdVolumeOff, MdInfoOutline } from "react-icons/md";
 
 export const getStaticProps = async () => {
@@ -24,9 +19,9 @@ function GlobalFilter({
   setGlobalFilter,
 }) {
   const [value, setValue] = React.useState(globalFilter);
-  const onChange = useAsyncDebounce((value) => {
+  const onChange = (value) => {
     setGlobalFilter(value || undefined);
-  }, 200);
+  };
 
   return (
     <span>
@@ -122,7 +117,6 @@ function Table({ columns, data }) {
     rows,
     prepareRow,
     state,
-    preGlobalFilteredRows,
     setGlobalFilter,
   } = useTable(
     {
@@ -137,11 +131,10 @@ function Table({ columns, data }) {
 
   return (
     <>
-      {/* <GlobalFilter
-        preGlobalFilteredRows={preGlobalFilteredRows}
+      <GlobalFilter
         globalFilter={state.globalFilter}
         setGlobalFilter={setGlobalFilter}
-      /> */}
+      />
       <table
         {...getTableProps()}
         className="min-w-full divide-y divide-gray-400 border-4"
@@ -197,7 +190,16 @@ const showBibleData = (bibles) => {
         name: val.version.name,
         code: val.version.code,
         revision: val.version.longName,
-        audioBible: val.audioBible.name ? <MdVolumeUp /> : <MdVolumeOff />,
+        audioBible: val.audioBible.name ? (
+          <MdVolumeUp className="mx-4 text-2xl" />
+        ) : (
+          <MdVolumeOff className="mx-2 text-2xl" />
+        ),
+        metadata: val.metadata ? (
+          <MdInfoOutline className="mx-4 text-2xl cursor-pointer" />
+        ) : (
+          ""
+        ),
         published: val.metadata ? val.metadata.Latest : "",
       };
       result.push(bible);
@@ -230,6 +232,10 @@ function Bibles({ bibles }) {
       {
         Header: "Audio Bible",
         accessor: "audioBible",
+      },
+      {
+        Header: "Metadata",
+        accessor: "metadata",
       },
       {
         Header: "Published",

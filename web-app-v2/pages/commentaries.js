@@ -1,11 +1,11 @@
 import React from "react";
-import {
-  useTable,
-  useFilters,
-  useGlobalFilter,
-  useAsyncDebounce,
-} from "react-table";
+import { useTable, useFilters, useGlobalFilter } from "react-table";
 import { MdInfoOutline } from "react-icons/md";
+import { FaPlus } from "react-icons/fa";
+import { Dialog, Transition } from "@headlessui/react";
+import { Fragment, useState } from "react";
+import { API } from "../store/api";
+import { AsyncPaginate } from "react-select-async-paginate";
 
 export const getStaticProps = async () => {
   const res = await fetch(process.env.baseUrl + "commentaries");
@@ -18,15 +18,11 @@ export const getStaticProps = async () => {
 };
 
 // Define a default UI for filtering
-function GlobalFilter({
-  preGlobalFilteredRows,
-  globalFilter,
-  setGlobalFilter,
-}) {
+function GlobalFilter({ globalFilter, setGlobalFilter }) {
   const [value, setValue] = React.useState(globalFilter);
-  const onChange = useAsyncDebounce((value) => {
+  const onChange = (value) => {
     setGlobalFilter(value || undefined);
-  }, 200);
+  };
 
   return (
     <span>
@@ -122,7 +118,6 @@ function Table({ columns, data }) {
     rows,
     prepareRow,
     state,
-    preGlobalFilteredRows,
     setGlobalFilter,
   } = useTable(
     {
@@ -137,11 +132,10 @@ function Table({ columns, data }) {
 
   return (
     <>
-      {/* <GlobalFilter
-        preGlobalFilteredRows={preGlobalFilteredRows}
+      <GlobalFilter
         globalFilter={state.globalFilter}
         setGlobalFilter={setGlobalFilter}
-      /> */}
+      />
       <table
         {...getTableProps()}
         className="min-w-full divide-y divide-gray-400 border-4"
@@ -197,10 +191,7 @@ const showCommentaryData = (commentaries) => {
         name: val.name,
         code: val.code,
         metadata: val.name ? (
-          <MdInfoOutline
-            id={val.sourceId}
-            onClick={() => console.log("hello world", val.sourceId)}
-          />
+          <MdInfoOutline className="mx-4 text-2xl cursor-pointer" />
         ) : (
           ""
         ),
@@ -212,6 +203,16 @@ const showCommentaryData = (commentaries) => {
 };
 
 function Commentaries({ commentaries }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [language, setLanguage] = useState("");
+
+  const closeModal = () => {
+    setIsOpen(false);
+  };
+  const openModal = () => {
+    setIsOpen(true);
+  };
+
   const columns = React.useMemo(
     () => [
       {
@@ -240,8 +241,161 @@ function Commentaries({ commentaries }) {
     () => showCommentaryData(commentaries),
     [commentaries]
   );
+  const loadOptions = async (searchQuery, loadedOptions, { page }) => {
+    const response = await API.get(
+      `languages?search_word=${searchQuery}&skip=${(page - 1) * 20}&limit=20`
+    );
+    const responseJSON = response.data;
+    return {
+      options: responseJSON,
+      hasMore: responseJSON.length >= 1,
+      additional: {
+        page: searchQuery ? 2 : page + 1,
+      },
+    };
+  };
+  return (
+    <>
+      <button
+        type="button"
+        onClick={openModal}
+        className="flex font-medium justify-center p-3 m-2 border-2 bg-gray-600 text-white rounded-full float-right hover:bg-opacity-90 focus:outline-none focus-visible:ring-white focus:ring-opacity-10"
+      >
+        <FaPlus className="my-1 mx-2" />
+        Add Commentary
+      </button>
+      <Dialog
+        as="div"
+        className="fixed inset-0 z-50 overflow-y-auto overflow-x-auto h-screen top-40"
+        open={isOpen}
+        onClose={() => setIsOpen(false)}
+      >
+        <div className="min-h-screen px-4 text-center">
+          <div className="inline-block border-gray-900 w-full max-w-2xl p-6 my-8 overflow-hidden text-left align-middle transition-all bg-white shadow-xl rounded-xl">
+            <Dialog.Title
+              as="h1"
+              className="text-lg font-medium leading-6 text-gray-900 border-b-2 p-2"
+            >
+              Add Commentaries
+            </Dialog.Title>
+            <div className="mt-2 border-b-2">
+              <form className="w-full max-w-lg">
+                <div className="flex flex-wrap -mx-3 mb-6">
+                  <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                    <label
+                      className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                      htmlFor="grid-first-name"
+                    >
+                      Name
+                    </label>
+                    <input
+                      className="appearance-none block w-full text-gray-700 border border-gray-700 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                      id="grid-first-name"
+                      type="text"
+                    />
+                  </div>
+                  <div className="w-full md:w-1/2 px-3">
+                    <label
+                      className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                      htmlFor="grid-last-name"
+                    >
+                      Abbreviation
+                    </label>
+                    <input
+                      className="appearance-none block w-full text-gray-700 border border-gray-700 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                      id="grid-last-name"
+                      type="text"
+                    />
+                  </div>
+                </div>
+                <div className="flex flex-wrap -mx-3 mb-6">
+                  <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                    <label
+                      className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                      htmlFor="grid-first-name"
+                    >
+                      Revision
+                    </label>
+                    <input
+                      className="appearance-none block w-full text-gray-700 border border-gray-700 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                      id="grid-first-name"
+                      type="text"
+                    />
+                  </div>
+                  <div className="w-full md:w-1/2 px-3">
+                    <label
+                      className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                      htmlFor="grid-last-name"
+                    >
+                      License
+                    </label>
+                    <input
+                      className="appearance-none block w-full text-gray-700 border border-gray-700 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                      id="grid-last-name"
+                      type="text"
+                    />
+                  </div>
+                </div>
+                <div className="flex flex-wrap -mx-3 mb-6">
+                  <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                    <label
+                      className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                      htmlFor="grid-first-name"
+                    >
+                      Year
+                    </label>
+                    <input
+                      className="appearance-none block w-full text-gray-700 border border-gray-700 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                      id="grid-first-name"
+                      type="text"
+                    />
+                  </div>
+                  <div className="w-full md:w-1/2 px-3">
+                    <label
+                      className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                      htmlFor="grid-last-name"
+                    >
+                      Language
+                    </label>
+                    <AsyncPaginate
+                      onChange={(option) => setLanguage(option)}
+                      loadOptions={loadOptions}
+                      getOptionValue={(option) => option.code}
+                      getOptionLabel={(option) => option.language}
+                      placeholder="Select Language"
+                      isSearchable
+                      isClearable
+                      value={language === null ? "" : language}
+                      additional={{
+                        page: 1,
+                      }}
+                    />
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div className="flex justify-between mt-4">
+              <button
+                type="button"
+                className="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-gray-700 hover:border-transparent rounded"
+                onClick={closeModal}
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+              >
+                Save
+              </button>
+            </div>
+          </div>
+        </div>
+      </Dialog>
 
-  return <Table columns={columns} data={data} />;
+      <Table columns={columns} data={data} className="flex" />
+    </>
+  );
 }
 
 export default Commentaries;
