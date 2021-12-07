@@ -5,11 +5,11 @@ import { FaPlus } from "react-icons/fa";
 import { Dialog } from "@headlessui/react";
 
 export const getStaticProps = async () => {
-  const res = await fetch(process.env.baseUrl + "dictionaries");
-  const dictionaries = await res.json();
+  const res = await fetch(process.env.baseUrl + "videos");
+  const videos = await res.json();
   return {
     props: {
-      dictionaries,
+      videos,
     },
   };
 };
@@ -23,7 +23,7 @@ function GlobalFilter({ globalFilter, setGlobalFilter }) {
 
   return (
     <span>
-      Dictionaries :{" "}
+      Videos :{" "}
       <input
         value={value || ""}
         onChange={(e) => {
@@ -179,33 +179,36 @@ function Table({ columns, data }) {
   );
 }
 
-const showDictionaryData = (dictionaries) => {
+const truncate = (str) => {
+  return str.length > 10 ? str.substring(0, 20) + "..." : str;
+};
+
+const showVideosData = (videos) => {
   const result = [];
-  const showData = dictionaries.forEach((item) => {
-    item.dictionaries.forEach((val) => {
-      let dictionaries = {
-        language: item.language,
-        name: val.name,
-        code: val.code,
-        metadata: val.name ? (
-          <MdInfoOutline className="mx-2 text-2xl cursor-pointer" />
-        ) : (
-          ""
-        ),
-      };
-      result.push(dictionaries);
+  const showData = videos.forEach((item) => {
+    Object.values(item.books).map((item2) => {
+      item2.forEach((val) => {
+        let videos = {
+          language: item.language.name,
+          title: val.title,
+          description: truncate(val.description),
+          theme: val.theme,
+          url: val.url,
+        };
+        result.push(videos);
+      });
     });
   });
   return result;
 };
 
-function Dictionaries({ dictionaries }) {
+function Videos({ videos }) {
   const [open, setOpen] = useState(false);
 
-  const closeDictionaryModal = () => {
+  const closeModal = () => {
     setOpen(false);
   };
-  const openDictionaryModal = () => {
+  const openModal = () => {
     setOpen(true);
   };
 
@@ -218,35 +221,36 @@ function Dictionaries({ dictionaries }) {
         filter: "includes",
       },
       {
-        Header: "Code",
-        accessor: "code",
+        Header: "Title",
+        accessor: "title",
       },
       {
-        Header: "Name",
-        accessor: "name",
+        Header: "Description",
+        accessor: "description",
       },
       {
-        Header: "Metadata",
-        accessor: "metadata",
+        Header: "Theme",
+        accessor: "theme",
+      },
+      {
+        Header: "URL",
+        accessor: "url",
       },
     ],
     []
   );
 
-  const data = React.useMemo(
-    () => showDictionaryData(dictionaries),
-    [dictionaries]
-  );
+  const data = React.useMemo(() => showVideosData(videos), [videos]);
 
   return (
     <>
       <button
         type="button"
-        onClick={openDictionaryModal}
+        onClick={openModal}
         className="flex font-medium justify-center p-3 m-2 border-2 bg-gray-600 text-white rounded-full float-right hover:bg-opacity-90"
       >
         <FaPlus className="my-1 mx-2" />
-        Add Dictionary
+        Add Videos
       </button>
       <Dialog
         as="div"
@@ -260,7 +264,7 @@ function Dictionaries({ dictionaries }) {
               as="h1"
               className="text-lg font-medium leading-6 text-gray-900 border-b-2 p-2"
             >
-              Add Dictionary
+              Add Video
             </Dialog.Title>
             <div className="mt-2 border-b-2">
               <form className="w-full max-w-lg">
@@ -298,7 +302,7 @@ function Dictionaries({ dictionaries }) {
               <button
                 type="button"
                 className="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-gray-700 hover:border-transparent rounded"
-                onClick={closeDictionaryModal}
+                onClick={closeModal}
               >
                 Cancel
               </button>
@@ -318,4 +322,4 @@ function Dictionaries({ dictionaries }) {
   );
 }
 
-export default Dictionaries;
+export default Videos;

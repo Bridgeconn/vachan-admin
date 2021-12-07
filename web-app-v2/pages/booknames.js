@@ -5,11 +5,11 @@ import { FaPlus } from "react-icons/fa";
 import { Dialog } from "@headlessui/react";
 
 export const getStaticProps = async () => {
-  const res = await fetch(process.env.baseUrl + "dictionaries");
-  const dictionaries = await res.json();
+  const res = await fetch(process.env.baseUrl + "booknames");
+  const booknames = await res.json();
   return {
     props: {
-      dictionaries,
+      booknames,
     },
   };
 };
@@ -23,7 +23,7 @@ function GlobalFilter({ globalFilter, setGlobalFilter }) {
 
   return (
     <span>
-      Dictionaries :{" "}
+      Book Names :{" "}
       <input
         value={value || ""}
         onChange={(e) => {
@@ -179,33 +179,31 @@ function Table({ columns, data }) {
   );
 }
 
-const showDictionaryData = (dictionaries) => {
+const showBooknamesData = (booknames) => {
   const result = [];
-  const showData = dictionaries.forEach((item) => {
-    item.dictionaries.forEach((val) => {
-      let dictionaries = {
-        language: item.language,
-        name: val.name,
-        code: val.code,
-        metadata: val.name ? (
-          <MdInfoOutline className="mx-2 text-2xl cursor-pointer" />
-        ) : (
-          ""
-        ),
+  const showData = booknames.forEach((item) => {
+    Object.values(item.bookNames).map((item2) => {
+      console.log(item2);
+      let booknames = {
+        language: item.language.name,
+        abbreviation: item2.abbr,
+        short: item2.short,
+        long: item2.long,
+        bookCode: item2.book_code,
       };
-      result.push(dictionaries);
+      result.push(booknames);
     });
   });
   return result;
 };
 
-function Dictionaries({ dictionaries }) {
+function BookNames({ booknames }) {
   const [open, setOpen] = useState(false);
 
-  const closeDictionaryModal = () => {
+  const closeModal = () => {
     setOpen(false);
   };
-  const openDictionaryModal = () => {
+  const openModal = () => {
     setOpen(true);
   };
 
@@ -218,35 +216,36 @@ function Dictionaries({ dictionaries }) {
         filter: "includes",
       },
       {
-        Header: "Code",
-        accessor: "code",
+        Header: "Book code",
+        accessor: "bookCode",
       },
       {
-        Header: "Name",
-        accessor: "name",
+        Header: "Abbreviation",
+        accessor: "abbreviation",
       },
       {
-        Header: "Metadata",
-        accessor: "metadata",
+        Header: "Short",
+        accessor: "short",
+      },
+      {
+        Header: "Long",
+        accessor: "long",
       },
     ],
     []
   );
 
-  const data = React.useMemo(
-    () => showDictionaryData(dictionaries),
-    [dictionaries]
-  );
+  const data = React.useMemo(() => showBooknamesData(booknames), [booknames]);
 
   return (
     <>
       <button
         type="button"
-        onClick={openDictionaryModal}
+        onClick={openModal}
         className="flex font-medium justify-center p-3 m-2 border-2 bg-gray-600 text-white rounded-full float-right hover:bg-opacity-90"
       >
         <FaPlus className="my-1 mx-2" />
-        Add Dictionary
+        Add bookName
       </button>
       <Dialog
         as="div"
@@ -260,7 +259,7 @@ function Dictionaries({ dictionaries }) {
               as="h1"
               className="text-lg font-medium leading-6 text-gray-900 border-b-2 p-2"
             >
-              Add Dictionary
+              Add BookNames
             </Dialog.Title>
             <div className="mt-2 border-b-2">
               <form className="w-full max-w-lg">
@@ -298,7 +297,7 @@ function Dictionaries({ dictionaries }) {
               <button
                 type="button"
                 className="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-gray-700 hover:border-transparent rounded"
-                onClick={closeDictionaryModal}
+                onClick={closeModal}
               >
                 Cancel
               </button>
@@ -318,4 +317,4 @@ function Dictionaries({ dictionaries }) {
   );
 }
 
-export default Dictionaries;
+export default BookNames;

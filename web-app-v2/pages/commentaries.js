@@ -1,11 +1,11 @@
 import React from "react";
 import { useTable, useFilters, useGlobalFilter } from "react-table";
-import { MdInfoOutline } from "react-icons/md";
 import { FaPlus } from "react-icons/fa";
-import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useState } from "react";
+import { Dialog } from "@headlessui/react";
+import { useState } from "react";
 import { API } from "../store/api";
 import { AsyncPaginate } from "react-select-async-paginate";
+import Metadata from "../components/Metadata";
 
 export const getStaticProps = async () => {
   const res = await fetch(process.env.baseUrl + "commentaries");
@@ -26,7 +26,7 @@ function GlobalFilter({ globalFilter, setGlobalFilter }) {
 
   return (
     <span>
-      Bible :{" "}
+      Commentaries :{" "}
       <input
         value={value || ""}
         onChange={(e) => {
@@ -185,16 +185,14 @@ function Table({ columns, data }) {
 const showCommentaryData = (commentaries) => {
   const result = [];
   const showData = commentaries.forEach((item) => {
+    console.log(item);
     item.commentaries.forEach((val) => {
       let commentaries = {
         language: item.language,
         name: val.name,
         code: val.code,
-        metadata: val.name ? (
-          <MdInfoOutline className="mx-4 text-2xl cursor-pointer" />
-        ) : (
-          ""
-        ),
+        sourceId: val.sourceId,
+        metadata: val.metadata,
       };
       result.push(commentaries);
     });
@@ -232,6 +230,16 @@ function Commentaries({ commentaries }) {
       {
         Header: "Metadata",
         accessor: "metadata",
+        Cell: ({ value, row }) => {
+          const data = row.original;
+          return (
+            <Metadata
+              language={data.language}
+              name={data.name}
+              metadata={value}
+            />
+          );
+        },
       },
     ],
     []
@@ -259,7 +267,7 @@ function Commentaries({ commentaries }) {
       <button
         type="button"
         onClick={openModal}
-        className="flex font-medium justify-center p-3 m-2 border-2 bg-gray-600 text-white rounded-full float-right hover:bg-opacity-90 focus:outline-none focus-visible:ring-white focus:ring-opacity-10"
+        className="flex font-medium justify-center p-3 m-2 border-2 bg-gray-600 text-white rounded-full float-right hover:bg-opacity-90"
       >
         <FaPlus className="my-1 mx-2" />
         Add Commentary
@@ -289,7 +297,7 @@ function Commentaries({ commentaries }) {
                       Name
                     </label>
                     <input
-                      className="appearance-none block w-full text-gray-700 border border-gray-700 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                      className="appearance-none block w-full text-gray-700 border border-gray-700 rounded py-3 px-4 mb-3 leading-tight"
                       id="grid-first-name"
                       type="text"
                     />
@@ -302,7 +310,7 @@ function Commentaries({ commentaries }) {
                       Abbreviation
                     </label>
                     <input
-                      className="appearance-none block w-full text-gray-700 border border-gray-700 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                      className="appearance-none block w-full text-gray-700 border border-gray-700 rounded py-3 px-4 leading-tight "
                       id="grid-last-name"
                       type="text"
                     />
@@ -317,7 +325,7 @@ function Commentaries({ commentaries }) {
                       Revision
                     </label>
                     <input
-                      className="appearance-none block w-full text-gray-700 border border-gray-700 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                      className="appearance-none block w-full text-gray-700 border border-gray-700 rounded py-3 px-4 mb-3 leading-tight"
                       id="grid-first-name"
                       type="text"
                     />
@@ -330,7 +338,7 @@ function Commentaries({ commentaries }) {
                       License
                     </label>
                     <input
-                      className="appearance-none block w-full text-gray-700 border border-gray-700 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                      className="appearance-none block w-full text-gray-700 border border-gray-700 rounded py-3 px-4 leading-tight "
                       id="grid-last-name"
                       type="text"
                     />
@@ -345,7 +353,7 @@ function Commentaries({ commentaries }) {
                       Year
                     </label>
                     <input
-                      className="appearance-none block w-full text-gray-700 border border-gray-700 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                      className="appearance-none block w-full text-gray-700 border border-gray-700 rounded py-3 px-4 mb-3 leading-tight"
                       id="grid-first-name"
                       type="text"
                     />
@@ -393,7 +401,7 @@ function Commentaries({ commentaries }) {
         </div>
       </Dialog>
 
-      <Table columns={columns} data={data} className="flex" />
+      <Table columns={columns} data={data} />
     </>
   );
 }

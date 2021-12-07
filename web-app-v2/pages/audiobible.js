@@ -5,11 +5,11 @@ import { FaPlus } from "react-icons/fa";
 import { Dialog } from "@headlessui/react";
 
 export const getStaticProps = async () => {
-  const res = await fetch(process.env.baseUrl + "dictionaries");
-  const dictionaries = await res.json();
+  const res = await fetch(process.env.baseUrl + "bibles");
+  const audioBibles = await res.json();
   return {
     props: {
-      dictionaries,
+      audioBibles,
     },
   };
 };
@@ -23,7 +23,7 @@ function GlobalFilter({ globalFilter, setGlobalFilter }) {
 
   return (
     <span>
-      Dictionaries :{" "}
+      Audio Bibles :{" "}
       <input
         value={value || ""}
         onChange={(e) => {
@@ -179,33 +179,41 @@ function Table({ columns, data }) {
   );
 }
 
-const showDictionaryData = (dictionaries) => {
+const showAudioBiblesData = (audioBibles) => {
   const result = [];
-  const showData = dictionaries.forEach((item) => {
-    item.dictionaries.forEach((val) => {
-      let dictionaries = {
-        language: item.language,
-        name: val.name,
-        code: val.code,
-        metadata: val.name ? (
-          <MdInfoOutline className="mx-2 text-2xl cursor-pointer" />
-        ) : (
-          ""
-        ),
-      };
-      result.push(dictionaries);
+  const showData = audioBibles.forEach((item) => {
+    item.languageVersions.filter((item2) => {
+      const books = item2.audioBible.books;
+      const name = item2.audioBible.name;
+      if (name && books !== false) {
+        const bookCount = Object.keys(books);
+        let audioBibles = {
+          language: item.language,
+          name: item2.audioBible.name,
+          code: item2.language.code,
+          revision: item2.version.longName,
+          books: bookCount.length,
+          metadata: item2.metadata ? (
+            <MdInfoOutline className="mx-4 text-2xl cursor-pointer" />
+          ) : (
+            ""
+          ),
+          published: item2.metadata ? item2.metadata.Latest : "",
+        };
+        result.push(audioBibles);
+      }
     });
   });
   return result;
 };
 
-function Dictionaries({ dictionaries }) {
+function AudioBibles({ audioBibles }) {
   const [open, setOpen] = useState(false);
 
-  const closeDictionaryModal = () => {
+  const closeModal = () => {
     setOpen(false);
   };
-  const openDictionaryModal = () => {
+  const openModal = () => {
     setOpen(true);
   };
 
@@ -218,35 +226,43 @@ function Dictionaries({ dictionaries }) {
         filter: "includes",
       },
       {
-        Header: "Code",
-        accessor: "code",
-      },
-      {
         Header: "Name",
         accessor: "name",
       },
       {
+        Header: "Code",
+        accessor: "code",
+      },
+      {
+        Header: "Revision",
+        accessor: "revision",
+      },
+      {
         Header: "Metadata",
         accessor: "metadata",
+      },
+      {
+        Header: "Books",
+        accessor: "books",
       },
     ],
     []
   );
 
   const data = React.useMemo(
-    () => showDictionaryData(dictionaries),
-    [dictionaries]
+    () => showAudioBiblesData(audioBibles),
+    [audioBibles]
   );
 
   return (
     <>
       <button
         type="button"
-        onClick={openDictionaryModal}
+        onClick={openModal}
         className="flex font-medium justify-center p-3 m-2 border-2 bg-gray-600 text-white rounded-full float-right hover:bg-opacity-90"
       >
         <FaPlus className="my-1 mx-2" />
-        Add Dictionary
+        Add audio
       </button>
       <Dialog
         as="div"
@@ -260,7 +276,7 @@ function Dictionaries({ dictionaries }) {
               as="h1"
               className="text-lg font-medium leading-6 text-gray-900 border-b-2 p-2"
             >
-              Add Dictionary
+              Add AudioBibles
             </Dialog.Title>
             <div className="mt-2 border-b-2">
               <form className="w-full max-w-lg">
@@ -298,7 +314,7 @@ function Dictionaries({ dictionaries }) {
               <button
                 type="button"
                 className="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-gray-700 hover:border-transparent rounded"
-                onClick={closeDictionaryModal}
+                onClick={closeModal}
               >
                 Cancel
               </button>
@@ -318,4 +334,4 @@ function Dictionaries({ dictionaries }) {
   );
 }
 
-export default Dictionaries;
+export default AudioBibles;
