@@ -1,0 +1,31 @@
+{
+  "name": "vachan-admin-v2",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.6.0",
+    "@emotion/styled": "^11.6.0",
+    "@headlessui/react": "0.0.0-dev.8335bee",
+    "axios": "^0.24.0",
+    "dotenv": "^10.0.0",
+    "next": "12.0.4",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "react-icons": "^4.3.1",
+    "react-select": "^5.2.1",
+    "react-select-async-paginate": "^0.6.0",
+    "react-table": "^7.7.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.0",
+    "eslint": "7",
+    "eslint-config-next": "12.0.4",
+    "postcss": "^8.3.11",
+    "tailwindcss": "^2.2.19"
+  }
+}
