@@ -3,6 +3,7 @@ import { useTable, useFilters, useGlobalFilter } from "react-table";
 import { MdInfoOutline } from "react-icons/md";
 import { FaPlus } from "react-icons/fa";
 import { Dialog } from "@headlessui/react";
+import Metadata from "../components/Metadata";
 
 export const getStaticProps = async () => {
   const res = await fetch(process.env.baseUrl + "dictionaries");
@@ -186,12 +187,9 @@ const showDictionaryData = (dictionaries) => {
       let dictionaries = {
         language: item.language,
         name: val.name,
+        sourcedId: val.sourceId,
         code: val.code,
-        metadata: val.name ? (
-          <MdInfoOutline className="mx-2 text-2xl cursor-pointer" />
-        ) : (
-          ""
-        ),
+        metadata: val.metadata,
       };
       result.push(dictionaries);
     });
@@ -228,6 +226,16 @@ function Dictionaries({ dictionaries }) {
       {
         Header: "Metadata",
         accessor: "metadata",
+        Cell: ({ value, row }) => {
+          const data = row.original;
+          return (
+            <Metadata
+              language={data.language}
+              name={data.name}
+              metadata={value}
+            />
+          );
+        },
       },
     ],
     []

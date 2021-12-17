@@ -3,6 +3,7 @@ import { useTable, useFilters, useGlobalFilter } from "react-table";
 import { MdInfoOutline } from "react-icons/md";
 import { FaPlus } from "react-icons/fa";
 import { Dialog } from "@headlessui/react";
+import Metadata from "../components/Metadata";
 
 export const getStaticProps = async () => {
   const res = await fetch(process.env.baseUrl + "bibles");
@@ -193,11 +194,8 @@ const showAudioBiblesData = (audioBibles) => {
           code: item2.language.code,
           revision: item2.version.longName,
           books: bookCount.length,
-          metadata: item2.metadata ? (
-            <MdInfoOutline className="mx-4 text-2xl cursor-pointer" />
-          ) : (
-            ""
-          ),
+          metadata: item2.metadata,
+          sourceId: item2.sourceId,
           published: item2.metadata ? item2.metadata.Latest : "",
         };
         result.push(audioBibles);
@@ -240,6 +238,16 @@ function AudioBibles({ audioBibles }) {
       {
         Header: "Metadata",
         accessor: "metadata",
+        Cell: ({ value, row }) => {
+          const data = row.original;
+          return (
+            <Metadata
+              language={data.language}
+              name={data.name}
+              metadata={value}
+            />
+          );
+        },
       },
       {
         Header: "Books",

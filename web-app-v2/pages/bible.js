@@ -1,6 +1,7 @@
 import React from "react";
 import { useTable, useFilters, useGlobalFilter } from "react-table";
 import { MdVolumeUp, MdVolumeOff, MdInfoOutline } from "react-icons/md";
+import Metadata from "../components/Metadata";
 
 export const getStaticProps = async () => {
   const res = await fetch(process.env.baseUrl + "bibles");
@@ -195,11 +196,7 @@ const showBibleData = (bibles) => {
         ) : (
           <MdVolumeOff className="mx-2 text-2xl" />
         ),
-        metadata: val.metadata ? (
-          <MdInfoOutline className="mx-4 text-2xl cursor-pointer" />
-        ) : (
-          ""
-        ),
+        metadata: val.metadata,
         published: val.metadata ? val.metadata.Latest : "",
       };
       result.push(bible);
@@ -236,6 +233,16 @@ function Bibles({ bibles }) {
       {
         Header: "Metadata",
         accessor: "metadata",
+        Cell: ({ value, row }) => {
+          const data = row.original;
+          return (
+            <Metadata
+              language={data.language}
+              name={data.name}
+              metadata={value}
+            />
+          );
+        },
       },
       {
         Header: "Published",

@@ -185,7 +185,6 @@ function Table({ columns, data }) {
 const showCommentaryData = (commentaries) => {
   const result = [];
   const showData = commentaries.forEach((item) => {
-    console.log(item);
     item.commentaries.forEach((val) => {
       let commentaries = {
         language: item.language,
