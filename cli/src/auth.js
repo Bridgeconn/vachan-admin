@@ -43,6 +43,8 @@ function getToken() {
         headers: {
           Authorization: `Bearer ${response.data.accessToken}`,
         },
+        maxBodyLength: 50000000, //50mb
+        maxContentLength: 50000000, //50mb
       };
     })
     .catch(errorHandler);
